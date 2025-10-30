@@ -8,45 +8,101 @@
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             background-color: #f5f5f5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             min-height: 100vh;
+            overflow: hidden;
         }
         .logo-container {
-            margin: 20px 0;
+            margin: 0;
+            padding: 20px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f5f5f5;
+            z-index: 1000;
         }
         .logo {
-            max-width: 300px;
+            max-width: 80%;
+            max-height: 80vh;
+            width: auto;
             height: auto;
+            display: block;
+            margin: 0 auto;
         }
         .certificate-container {
             margin-top: 20px;
             text-align: center;
             max-width: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
         }
         .certificate {
             max-width: 100%;
             height: auto;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            display: none; /* Initially hide the certificate */
         }
         h1 {
             color: #333;
             margin-bottom: 30px;
         }
+        .countdown {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
-
-    
- 
+    <div class="logo-container">
+        <img src="images/logo.png" alt="Logo" class="logo">
+        <div id="countdown" class="countdown">3</div>
+    </div>
     
     <div class="certificate-container">
         <img src="images/certificate.jpg" alt="Certificate" class="certificate">
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countdownElement = document.getElementById('countdown');
+            const certificateContainer = document.querySelector('.certificate-container');
+            let count = 3;
+            
+            const countdownInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownElement.textContent = count;
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownElement.textContent = 'Go!';
+                    setTimeout(() => {
+                        // Hide the countdown and logo container, then show the certificate
+                        document.querySelector('.logo-container').style.display = 'none';
+                        // Show the certificate with a nice fade-in effect
+                        certificateContainer.style.display = 'block';
+                        document.body.style.overflow = 'auto';
+                        setTimeout(() => {
+                            certificateContainer.style.opacity = '1';
+                        }, 50);
+                    }, 500);
+                }
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
